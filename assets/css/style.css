@@ -4,3 +4,8 @@
     background: burlywood;
     margin-top: 100px;
 }
+
+.answer-choice {
+    margin-left: 20%;
+    padding-top: 30px;
+}

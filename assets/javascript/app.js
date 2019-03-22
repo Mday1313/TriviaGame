@@ -75,11 +75,13 @@ function gameSetup() {
         $(".start-btn").hide();
         timeRemaining = 30;
         $(".timer-count").text("Time Remaining: " + timeRemaining);
+        
+        // For loop that cycles through questions
         $(".question-text").text(triviaQuestions[0].question);
-      
-
+    
         // NOT WORKING- want choices array to be displayed as an ordered list block
-        answerList = $(".answer-choice").append( '<li>' + triviaQuestions[0].choices + '</li>' );
+        // for each to make dry
+        answerList = $(".answer-choice").append( '<li>' + triviaQuestions[0].choices[0] + '</li>', '<li>' + triviaQuestions[0].choices[1] + '</li>', '<li>' + triviaQuestions[0].choices[2] + '</li>', '<li>' + triviaQuestions[0].choices[3] + '</li>'   );
             
        
 
