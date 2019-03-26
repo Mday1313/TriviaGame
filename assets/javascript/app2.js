@@ -7,41 +7,47 @@ $(document).ready(function () {
 
     var triviaQuestions = [
         {
-            question: "question 1",            //     question
-            choices: ["a. words words", "b", "c", "d"],           //     possible answer array
-            correct: "answer",                 //     correct answer
-            image: "../images/black-sand.jpeg"                       //     corresponding answer gif
+            question: "Which mountain range divides Spain and France?",            //     question
+            choices: ["Andes", "Pyrenees", "Alps", "Sierra Nevada"],           //     possible answer array
+            correct: "Pyrenees",              //     correct answer
+            image: "../images/Pyrenees.png"                       //     corresponding answer gif
         },
         {
-            question: "question 2",
-            choices: "a blah blah, b, c, d",
-            correct: "answer",
-            gif: "stuff"
+            question: "You are sailing the warm waters of the Atlantic, off the coast of West Africa and see glowing dolphins, what is most likely the cause?",
+            choices: ["a radioactive spill", "someone spiked your drink with Peyote", "magic", "phosphorescent algae"],
+            correct: "phosphorescent algae",
+            image: "stuff"
         },
-        // {
-        //     question: "question 3",
-        //     choices: "a, b, c, d",
-        //     correct: "answer",
-        //     gif: "stuff"
-        // },
-        // {
-        //     question: "question 4",
-        //     choices: "a, b, c, d",
-        //     correct: "answer",
-        //     gif: "stuff"
-        // },
-        // {
-        //     question: "question 5",
-        //     choices: "a, b, c, d",
-        //     correct: "answer",
-        //     gif: "stuff"
-        // },
-        // {
-        //     question: "question 6",
-        //     choices: "a, b, c, d",
-        //     correct: "answer",
-        //     gif: "stuff"
-        // },
+        {
+            question: "Which Ecuadorian city is also a city in Spain?",
+            choices: ["Quito", "Cuenca", "Montanita", "Guayaquil"],
+            correct: "Cuenca",
+            image: "stuff"
+        },
+        {
+            question: "On which sea is Croatia located?",
+            choices: ["Aegean", "Adriatic", "Ionian", "Tyrrhanian"],
+            correct: "Adriatic",
+            image: "stuff"
+        },
+        {
+            question: "Where in Italy is the Via dell'Amore located?",
+            choices: ["Cinque Terre", "Amalfi Coast", "Venice", "Verona"],
+            correct: "Cinque Terre",
+            image: "stuff"
+        },
+        {
+            question: "How do sailors commonly refer to the Bay of Biscay due to high volume of rough seas?",
+            choices: ["Rocks a Lot Bay", "Capsize Bay", "Bay of Dismay", "Bay of Lost Souls"],
+            correct: "Bay of Dismay",
+            image: "stuff"
+        },
+        {
+            question: "Which famous archaeological site sits atop a massive plateau and overlooks the Dead Sea?",
+            choices: ["Cliff Palace", "Mount Masada", "Machu Picchu", "Petra"],
+            correct: "Cuenca",
+            image: "stuff"
+        },
 
     ];
 
@@ -49,13 +55,12 @@ $(document).ready(function () {
     var timeRemaining = 5;
     var questionCounter = 0;
     var countDownId;
-    var listItem;
-
-
-
-
-
-
+    var listItem = [];
+    var correctAnswers = 0; 
+    var wrongAnswers = 0;
+    var unanswered = 0;
+    var pickedAnswer;
+var answerList = [];
 
     $(".start-btn")
         .text("Start Game").css("margin-top", "+" + 200 + "px")
@@ -64,21 +69,21 @@ $(document).ready(function () {
     function run() {
         clearInterval(countDownId);
         $(".timer-count").html("<h3>" + "Will self destruct in " + timeRemaining + "</h3>");
-        
+
         countDownId = setInterval(decrement, 1000);
 
     }
-    
+
     function decrement() {
 
         timeRemaining--;
-         $(".timer-count").html("<h3>" + "Will self destruct in " + timeRemaining + "</h3>");
+        $(".timer-count").html("<h3>" + "Will self destruct in " + timeRemaining + "</h3>");
         // $(".time-count").text( "Will self destruct in " + timeRemaining );
 
         if (timeRemaining === 0) {
+            unanswered++;
 
             stop();
-
 
         }
     }
@@ -87,44 +92,80 @@ $(document).ready(function () {
 
         clearInterval(countDownId);
 
-        questionCounter++;
-        displayImage();
-     console.log(questionCounter);
-
+        resetDisplay()
     }
-
-   
 
 
     function gameSetup() {
 
         $(".start-btn").hide();
         $(".answer-page").hide();
-       
+
     }
     function displayQuestion() {
+
+        $(".question-page").show();
         $(".question-text").text(triviaQuestions[questionCounter].question);
         listItem = triviaQuestions[questionCounter].choices;
 
-
-        answerList = $(".answer-choice").append('<li>' + listItem[0] + '</li>',
-            '<li>' + listItem[1] + '</li>',
-            '<li>' + listItem[2] + '</li>',
-            '<li>' + listItem[3] + '</li>');
-
+       for (var i = 0; i < listItem.length; i++) {
+        answerList = $(".answer-choice").append("<button class='answer [i]'>" + listItem[i] + "</button>");
+       console.log([i]);
+    }
+      
+        run();
+        
+        $("button").on("click", function(event){
+        
        
-    run();
+            var selectedAnswer = $(this).text();
+             
+             console.log(selectedAnswer);
+            if (selectedAnswer === triviaQuestions[questionCounter].correct)  {
+                
+                stop();
+                generateWin();
+            } else {
+                stop();
+                generateLoss();
+
+            }
+                 
+             
+         });
+    
+    }
+
+      
+function generateWin() {
+    correctAnswers++;
+    console.log("correct " + correctAnswers);
+}
+
+function generateLoss() {
+    wrongAnswers++;
+    console.log("wrong " + wrongAnswers);
+    
+}
+
+    function displayImage() {
+
+        $(".question-page").hide();
+        // $("#image-holder").html("<img src='" + triviaQuestions[questionCounter].image + "' width='400px'>");
+        questionCounter++;
+
+        displayQuestion();
 
     }
- 
-    function displayImage() {
-        
-        $(".question-page").hide();
-        //  $("#image-holder").html("<img src='" + triviaQuestions[questionCounter].image + "' width='400px'>");
-      displayQuestion();
-      }
+
+    function resetDisplay() {
+        $(".answer-choice").empty();
+        timeRemaining = 5;
+        displayImage();
+    }
+    console.log(questionCounter);
     // function answerDisplay() {
-        
+
     // }
 
 
