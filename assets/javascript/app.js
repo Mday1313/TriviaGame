@@ -15,7 +15,7 @@ $(document).ready(function () {
         },
         {
             question: "question 2",
-            choices: "a, b, c, d",
+            choices: "a blah blah, b, c, d",
             correct: "answer",
             gif: "stuff"
         },
@@ -54,13 +54,14 @@ $(document).ready(function () {
     var correctCount = 0;
     var wrongCount = 0;
     var timeRemaining = 30;
+    var questionCounter = 0; 
     var unansweredCount = 0;
     var answeredCorrect = 0;
     var answerList;
     var listItem;
     var countDownId;
-
-
+    var answerPicked;
+ var userGuess = [];
     // onload
     //     *game title 
     //     *start button
@@ -77,14 +78,15 @@ $(document).ready(function () {
     }
     function run() {
         clearInterval(countDownId);
+        
         countDownId = setInterval(decrement, 1000);
 
     }
     function decrement() {
 
         timeRemaining--;
-
-        $(".timer-count").html("<h2>" + "Will self destruct in " + timeRemaining + "</h2>");
+        $(".timer-count").html("<h3>" + "Will self destruct in " + timeRemaining + "</h3>");
+        // $(".time-count").text( "Will self destruct in " + timeRemaining );
 
         if (timeRemaining === 0) {
 
@@ -97,6 +99,8 @@ $(document).ready(function () {
     function stop() {
         
      clearInterval(countDownId);
+     questionCounter++;
+     console.log(questionCounter);
      
     }
 
@@ -116,12 +120,19 @@ $(document).ready(function () {
         // MAKE DRY
         answerList = $(".answer-choice").append('<li>' + triviaQuestions[i].choices[0] + '</li>', '<li>' + triviaQuestions[i].choices[1] + '</li>', '<li>' + triviaQuestions[i].choices[2] + '</li>', '<li>' + triviaQuestions[i].choices[3] + '</li>');
 
+        // answerPicked =  $("li")for.on("click", function() {
+        //     console.log(answerPicked);
+        //  });
+      
         run();
         
 
     }
 
-
+    $("li").on("click", function () {
+        var click = triviaQuestions[i].choice.indexOf("li");
+    });
+    console.log(userGuess);
 
 
 
