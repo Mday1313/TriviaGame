@@ -67,7 +67,7 @@ $(document).ready(function () {
 
 
 
-    var timeRemaining = 5;
+    var timeRemaining = 20;
     var questionCounter = 0;
     var countDownId;
     var listItem = [];
@@ -231,6 +231,7 @@ $(document).ready(function () {
         $(".time-up").empty();
         $("#image-holder").empty();
         $(".answer-choice").empty();
+        $(".final-score").show();
         $(".game-over").text("GAME OVER ");
         $(".words").text("How did you do?");
         $(".correct").text("Correct Answers: " + correctAnswers);
@@ -252,7 +253,7 @@ $(document).ready(function () {
         $("answer-page").empty();
         $("#image-holder").empty();
 
-        timeRemaining = 5;
+        timeRemaining = 20;
         displayQuestion();
     }
 
