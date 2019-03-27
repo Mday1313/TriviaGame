@@ -10,46 +10,66 @@ $(document).ready(function () {
             question: "Which mountain range divides Spain and France?",            //     question
             choices: ["Andes", "Pyrenees", "Alps", "Sierra Nevada"],           //     possible answer array
             correct: "Pyrenees",              //     correct answer
-            image: "../images/Pyrenees.png"                       //     corresponding answer gif
+            image: "/Pyrenees.png"                       //     corresponding answer gif
         },
         {
             question: "You are sailing the warm waters of the Atlantic, off the coast of West Africa and see glowing dolphins, what is most likely the cause?",
-            choices: ["a radioactive spill", "someone spiked your drink with Peyote", "magic", "phosphorescent algae"],
-            correct: "phosphorescent algae",
-            image: "stuff"
+            choices: ["A Radioactive Spill", "Someone spiked your drink with PEYOTE", "Magic", "Phosphorescent Algae"],
+            correct: "Phosphorescent Algae",
+            image: "/plankton.jpg"
         },
         {
             question: "Which Ecuadorian city is also a city in Spain?",
             choices: ["Quito", "Cuenca", "Montanita", "Guayaquil"],
             correct: "Cuenca",
-            image: "stuff"
+            image: "/cuenca.jpg"
         },
         {
             question: "On which sea is Croatia located?",
             choices: ["Aegean", "Adriatic", "Ionian", "Tyrrhanian"],
             correct: "Adriatic",
-            image: "stuff"
+            image: "/adriatic.jpg"
         },
         {
             question: "Where in Italy is the Via dell'Amore located?",
             choices: ["Cinque Terre", "Amalfi Coast", "Venice", "Verona"],
             correct: "Cinque Terre",
-            image: "stuff"
+            image: "/cinque-terre.jpg"
         },
         {
             question: "How do sailors commonly refer to the Bay of Biscay due to high volume of rough seas?",
             choices: ["Rocks a Lot Bay", "Capsize Bay", "Bay of Dismay", "Bay of Lost Souls"],
             correct: "Bay of Dismay",
-            image: "stuff"
+            image: "/bay.jpg"
         },
         {
             question: "Which famous archaeological site sits atop a massive plateau and overlooks the Dead Sea?",
             choices: ["Cliff Palace", "Mount Masada", "Machu Picchu", "Petra"],
-            correct: "Cuenca",
-            image: "stuff"
+            correct: "Mount Masada",
+            image: "/masada.jpg"
+        },
+        {
+            question: "The Continental Divide Trail is approximately _____ miles long in Montana and Idaho.",
+            choices: ["800", "1200", "600", "50"],
+            correct: "800",
+            image: "/divide.jpg"
+        },
+        {
+            question: "Which National Park located in coastal Maine is also the name of my dog?",
+            choices: ["Acadia", "Bass Harbor", "Baxter", "Carlsbad"],
+            correct: "Acadia",
+            image: "/bubs.jpg"
+        },
+        {
+            question: "",
+            choices: [],
+            correct: "",
+            image: ""
         },
 
     ];
+
+   
 
 
     var timeRemaining = 5;
@@ -59,16 +79,20 @@ $(document).ready(function () {
     var correctAnswers = 0; 
     var wrongAnswers = 0;
     var unanswered = 0;
-    var pickedAnswer;
-var answerList = [];
+    
 
+    $(".reset-btn").hide();
+
+function startGame() {
+    
     $(".start-btn")
         .text("Start Game").css("margin-top", "+" + 200 + "px")
         .click(function () { gameSetup(displayQuestion()); });
-
+    }
+    startGame();
     function run() {
         clearInterval(countDownId);
-        $(".timer-count").html("<h3>" + "Will self destruct in " + timeRemaining + "</h3>");
+        $(".timer-count").html("<h3>" + "Time is running out in: " + timeRemaining + "</h3>");
 
         countDownId = setInterval(decrement, 1000);
 
@@ -77,7 +101,7 @@ var answerList = [];
     function decrement() {
 
         timeRemaining--;
-        $(".timer-count").html("<h3>" + "Will self destruct in " + timeRemaining + "</h3>");
+        $(".timer-count").html("<h3>" + "Time is running out in: " + timeRemaining + "</h3>");
         // $(".time-count").text( "Will self destruct in " + timeRemaining );
 
         if (timeRemaining === 0) {
@@ -103,7 +127,9 @@ var answerList = [];
 
     }
     function displayQuestion() {
-
+        $(".win").empty();
+        $(".loss").empty();
+        $(".time-up").empty();
         $(".question-page").show();
         $(".question-text").text(triviaQuestions[questionCounter].question);
         listItem = triviaQuestions[questionCounter].choices;
@@ -135,11 +161,17 @@ var answerList = [];
          });
     
     }
-
+function displayImage() {
+    $('<img/>')
+    .attr('src','assets/images' + triviaQuestions[questionCounter-1].image)
+    .appendTo('#image-holder');
+}
       
 function generateWin() {
     correctAnswers++;
     $(".question-page").hide();
+    $(".win").text("That is correct!");
+    displayImage();
     setTimeout(wait, 3000); 
     console.log("correct " + correctAnswers);
 }
@@ -147,28 +179,34 @@ function generateWin() {
 function generateLoss() {
     wrongAnswers++;
     $(".question-page").hide();
-    
+    $(".loss").text("WRONG " + "The correct answer is: " + triviaQuestions[questionCounter-1].correct);
+    displayImage();
     setTimeout(wait, 3000);
     console.log("wrong " + wrongAnswers);
     
 }
 
 function generateTimesUp() {
+    
     unanswered++;
     $(".question-page").hide();
-    
+    $(".time-up").text("TIME is UP! " + "The correct answer is: " + triviaQuestions[questionCounter-1].correct);
+    displayImage();
     setTimeout(wait, 3000);
+    
     console.log("Unanswered " + unanswered);
 }
 
 
 function wait() {
-    //ternary operator replacing if/else for generate more questions
     
-   if (questionCounter < 7) {
+    
+   if (questionCounter < 10) {
+    
     resetDisplay();
     
-   } else {
+   }  else {
+      
     finalScreen()
    }
     
@@ -176,33 +214,41 @@ function wait() {
    
 };
    function finalScreen() {
+    
     $(".answer-choice").empty();
     $(".game-over").text("GAME OVER ");
     $(".words").text("How did you do?");
     $(".correct").text("Correct Answers: " + correctAnswers);
     $(".wrong").text("Wrong Answers: " + wrongAnswers);
     $(".unanswered").text("Unanswered Questions: " + unanswered);
+   
+   
+    // $(".reset-btn")
+    
+    $(".reset-btn").text("Play Again").css("margin-top", "+" + 100 + "px").show().on("click", function (event) { 
+        resetGame(event); 
+    });
    }
 
        
 
-    // }
+    
 
     function resetDisplay() {
         $(".answer-choice").empty();
+        $("answer-page").empty();
+        $("#image-holder").empty();
         
         timeRemaining = 5;
         displayQuestion();
     }
     console.log(questionCounter);
-    // function answerDisplay() {
+   
+// This should restart game when button is clicked
+function resetGame() {
+    startGame();
 
-    // }
-
-
-
-
-
+    }
 
 
 

@@ -1,12 +1,15 @@
 .container {
+    
     margin: auto;
     text-align: center;
-    background: burlywood;
+    background: whitesmoke;
+    opacity: 0.8;
     margin-top: 100px;
+    
     
 }
 .main-content {
-    height: 400px;
+    margin-top: 20px;
 }
 
 .answer-choice {
@@ -36,4 +39,30 @@ body {
     font-weight: bold;
     margin-bottom: 20px;
     margin-top: 20px;
+}
+
+.words {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.final-score {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.win {
+    font-size: 40px;
+    color: #2d5ad6;
+    margin-top: 30px;
+}
+ .loss, .time-up {
+    font-size: 40px;
+    color: #f7222a;
+    margin-top: 30px;
+ }
+img {
+    height: 250px;
 }
