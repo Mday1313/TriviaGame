@@ -85,6 +85,9 @@ $(document).ready(function () {
         correctAnswers = 0;
         wrongAnswers = 0;
         unanswered = 0;
+        $(".final-score").empty();
+        $(".game-over").empty();
+        $(".words").empty();
         $(".start-btn").show();
     }
 
@@ -261,9 +264,7 @@ $(document).ready(function () {
     // This should restart game when button is clicked
     function resetGame() {
         $(".reset-btn").text("Play Again").css("margin-top", "+" + 100 + "px").show().on("click", function (event) {
-            $(".final-score").empty();
-            $(".game-over").empty();
-            $(".words").empty();
+
             restartGame();
         });
 
