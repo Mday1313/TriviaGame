@@ -66,9 +66,9 @@ $(document).ready(function () {
 
 
 
-// countdown clock
-    var timeRemaining = 20;  
-// var to keep track of which question we are on
+    // countdown clock
+    var timeRemaining = 20;
+    // var to keep track of which question we are on
     var questionCounter = 0;
 
     var countDownId;
@@ -78,14 +78,14 @@ $(document).ready(function () {
     var unanswered = 0;
     var startGame;
 
-// function connected to reset button click, to clear and reset numbers for next game
+    // function connected to reset button click, to clear and reset numbers for next game
     function restartGame() {
         $(".reset-btn").hide();
         questionCounter = 0;
         countDownId;
         listItem = [];
 
-    // clears score
+        // clears score
         correctAnswers = 0;
         wrongAnswers = 0;
         unanswered = 0;
@@ -108,29 +108,29 @@ $(document).ready(function () {
     startGame();
 
 
-// function to set time interval to 20 seconds
+    // function to set time interval to 20 seconds
     function run() {
         clearInterval(countDownId);
         $(".timer-count").html("<h3>" + "Time is running out in: " + timeRemaining + "</h3>");
-// count down by 1 second (1000 miliseconds)
+        // count down by 1 second (1000 miliseconds)
         countDownId = setInterval(decrement, 1000);
 
     }
-// function to reduce time by 1 for every 1000 miliseconds
-// write time to page
+    // function to reduce time by 1 for every 1000 miliseconds
+    // write time to page
 
     function decrement() {
 
         timeRemaining--;
         $(".timer-count").html("<h3>" + "Time is running out in: " + timeRemaining + "</h3>");
-        
-// set conditional to stop when timer equals 0
+
+        // set conditional to stop when timer equals 0
         if (timeRemaining === 0) {
             stop();
             generateTimesUp()
         }
     }
-// function to increase question number and clear interval
+    // function to increase question number and clear interval
     function stop() {
         questionCounter++;
         clearInterval(countDownId);
@@ -138,12 +138,12 @@ $(document).ready(function () {
         wait()
     }
 
-// hide start button when clicked
+    // hide start button when clicked
     function gameSetup() {
 
         $(".start-btn").hide();
         $(".answer-page").hide();
-        
+
     }
     // 
     function displayQuestion() {
@@ -151,42 +151,53 @@ $(document).ready(function () {
         $(".loss").empty();
         $(".time-up").empty();
         $(".question-page").show();
+
+        // to display answer array
         $(".question-text").text(triviaQuestions[questionCounter].question);
         listItem = triviaQuestions[questionCounter].choices;
 
+        // Loop through answers and create buttons for each
         for (var i = 0; i < listItem.length; i++) {
             answerList = $(".answer-choice").append("<button class='answer [i]'>" + listItem[i] + "</button>");
 
         }
-
+        // call for timer to begin
         run();
-
+        // Add click event to each button, 
         $(".answer").on("click", function (event) {
 
-
+            // Store answer in click
             var selectedAnswer = $(this).text();
 
-
+            // compare click answer to correct answer
+            // conditional for if correct, a win or if incorrect, a loss
             if (selectedAnswer === triviaQuestions[questionCounter].correct) {
 
                 stop();
                 generateWin();
+
             } else {
                 stop();
                 generateLoss();
 
             }
 
-
         });
 
     }
+
+
+    // attach image to answer screen, use questioncounter - 1
     function displayImage() {
         $('<img/>')
             .attr('src', 'assets/images' + triviaQuestions[questionCounter - 1].image)
             .appendTo('#image-holder');
     }
 
+    // function to create answer page for a win,
+    // increase correct counter by 1
+    // anounce right call image function
+    // set delay
     function generateWin() {
         correctAnswers++;
         $(".question-page").hide();
@@ -196,6 +207,10 @@ $(document).ready(function () {
 
     }
 
+    // function to create answer page for a loss,
+    // increase incorrect counter by 1
+    // anounce right call image function
+    // set delay
     function generateLoss() {
         wrongAnswers++;
         $(".question-page").hide();
@@ -206,6 +221,8 @@ $(document).ready(function () {
 
     }
 
+    // function to declare what is done if no answer found in alotted time
+    // same as correct with different wording
     function generateTimesUp() {
 
         unanswered++;
@@ -217,6 +234,12 @@ $(document).ready(function () {
 
     }
 
+    // if no more questions
+    // clear display
+    // show score
+    //     correct
+    //     wrong
+    //     unanswered
 
     function wait() {
 
@@ -234,7 +257,8 @@ $(document).ready(function () {
     };
 
 
-    // create function to clear all and display
+    // create function to clear all displays
+    // shows scores
     function finalScreen() {
 
         $(".loss").empty();
@@ -257,7 +281,9 @@ $(document).ready(function () {
 
 
 
-
+// clear display
+// reset timer
+// run through questions again
 
     function resetDisplay() {
         $(".answer-choice").empty();
@@ -280,12 +306,6 @@ $(document).ready(function () {
             restartGame();
         });
 
-
-
     }
-
-
-
-
 
 });
