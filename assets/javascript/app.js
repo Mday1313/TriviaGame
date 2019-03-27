@@ -50,7 +50,7 @@ $(document).ready(function () {
         },
         {
             question: "The Continental Divide Trail is approximately _____ miles long in Montana and Idaho.",
-            choices: ["800", "1200", "600", "50"],
+            choices: ["600", "1200", "800", "50"],
             correct: "800",
             image: "/divide.jpg"
         },
@@ -60,31 +60,42 @@ $(document).ready(function () {
             correct: "Acadia",
             image: "/bubs.jpg"
         },
-        
+
 
     ];
 
-   
+
 
 
     var timeRemaining = 5;
     var questionCounter = 0;
     var countDownId;
     var listItem = [];
-    var correctAnswers = 0; 
+    var correctAnswers = 0;
     var wrongAnswers = 0;
     var unanswered = 0;
-    
+    var startGame;
 
-    $(".reset-btn").hide();
 
-function startGame() {
-    
-    $(".start-btn")
-        .text("Start Game").css("margin-top", "+" + 200 + "px")
-        .click(function () { gameSetup(displayQuestion()); });
+    function restartGame() {
+        $(".reset-btn").hide();
+        questionCounter = 0;
+        countDownId;
+        listItem = [];
+        correctAnswers = 0;
+        wrongAnswers = 0;
+        unanswered = 0;
+        $(".start-btn").show();
+    }
+
+    function startGame() {
+        $(".reset-btn").hide();
+        $(".start-btn")
+            .text("Start Game").css("margin-top", "+" + 200 + "px")
+            .click(function () { gameSetup(displayQuestion()); });
     }
     startGame();
+
     function run() {
         clearInterval(countDownId);
         $(".timer-count").html("<h3>" + "Time is running out in: " + timeRemaining + "</h3>");
@@ -102,7 +113,7 @@ function startGame() {
         if (timeRemaining === 0) {
             stop();
             generateTimesUp()
-            
+
 
         }
     }
@@ -129,21 +140,21 @@ function startGame() {
         $(".question-text").text(triviaQuestions[questionCounter].question);
         listItem = triviaQuestions[questionCounter].choices;
 
-       for (var i = 0; i < listItem.length; i++) {
-        answerList = $(".answer-choice").append("<button class='answer [i]'>" + listItem[i] + "</button>");
-       console.log([i]);
-    }
-      
+        for (var i = 0; i < listItem.length; i++) {
+            answerList = $(".answer-choice").append("<button class='answer [i]'>" + listItem[i] + "</button>");
+
+        }
+
         run();
-        
-        $("button").on("click", function(event){
-        
-       
+
+        $(".answer").on("click", function (event) {
+
+
             var selectedAnswer = $(this).text();
-             
-             console.log(selectedAnswer);
-            if (selectedAnswer === triviaQuestions[questionCounter].correct)  {
-                
+
+
+            if (selectedAnswer === triviaQuestions[questionCounter].correct) {
+
                 stop();
                 generateWin();
             } else {
@@ -151,98 +162,112 @@ function startGame() {
                 generateLoss();
 
             }
-                 
-             
-         });
-    
+
+
+        });
+
     }
-function displayImage() {
-    $('<img/>')
-    .attr('src','assets/images' + triviaQuestions[questionCounter-1].image)
-    .appendTo('#image-holder');
-}
-      
-function generateWin() {
-    correctAnswers++;
-    $(".question-page").hide();
-    $(".win").text("That is correct!");
-    displayImage();
-    setTimeout(wait, 3000); 
-    console.log("correct " + correctAnswers);
-}
+    function displayImage() {
+        $('<img/>')
+            .attr('src', 'assets/images' + triviaQuestions[questionCounter - 1].image)
+            .appendTo('#image-holder');
+    }
 
-function generateLoss() {
-    wrongAnswers++;
-    $(".question-page").hide();
-    $(".loss").text("WRONG " + "The correct answer is: " + triviaQuestions[questionCounter-1].correct);
-    displayImage();
-    setTimeout(wait, 3000);
-    console.log("wrong " + wrongAnswers);
-    
-}
+    function generateWin() {
+        correctAnswers++;
+        $(".question-page").hide();
+        $(".win").text("That is correct!");
+        displayImage();
+        setTimeout(wait, 3000);
 
-function generateTimesUp() {
-    
-    unanswered++;
-    $(".question-page").hide();
-    $(".time-up").text("TIME is UP! " + "The correct answer is: " + triviaQuestions[questionCounter-1].correct);
-    displayImage();
-    setTimeout(wait, 3000);
-    
-    console.log("Unanswered " + unanswered);
-}
+    }
+
+    function generateLoss() {
+        wrongAnswers++;
+        $(".question-page").hide();
+        $(".loss").text("WRONG " + "The correct answer is: " + triviaQuestions[questionCounter - 1].correct);
+        displayImage();
+        setTimeout(wait, 3000);
 
 
-function wait() {
-    
-    
-   if (questionCounter < 9) {
-    
-    resetDisplay();
-    
-   }  else {
-    setTimeout(finalScreen, 3000);
-   }
-    
-    
-   
-};
-   function finalScreen() {
+    }
 
-    $(".loss").empty();
-    $(".win").empty();
-    $(".time-up").empty();
-    $("#image-holder").empty();
-    $(".answer-choice").empty();
-    $(".game-over").text("GAME OVER ");
-    $(".words").text("How did you do?");
-    $(".correct").text("Correct Answers: " + correctAnswers);
-    $(".wrong").text("Wrong Answers: " + wrongAnswers);
-    $(".unanswered").text("Unanswered Questions: " + unanswered);
-   
-   
-    // $(".reset-btn")
-    
-    $(".reset-btn").text("Play Again").css("margin-top", "+" + 100 + "px").show().on("click", resetGame);
-   }
+    function generateTimesUp() {
 
-       
+        unanswered++;
+        $(".question-page").hide();
+        $(".time-up").text("TIME is UP! " + "The correct answer is: " + triviaQuestions[questionCounter - 1].correct);
+        displayImage();
+        setTimeout(wait, 3000);
 
-    
+
+    }
+
+
+    function wait() {
+
+
+        if (questionCounter < triviaQuestions.length) {
+
+            resetDisplay();
+
+        } else {
+            setTimeout(finalScreen, 3000);
+        }
+
+
+
+    };
+
+
+    // create function to clear all and display
+    function finalScreen() {
+
+        $(".loss").empty();
+        $(".win").empty();
+        $(".time-up").empty();
+        $("#image-holder").empty();
+        $(".answer-choice").empty();
+        $(".game-over").text("GAME OVER ");
+        $(".words").text("How did you do?");
+        $(".correct").text("Correct Answers: " + correctAnswers);
+        $(".wrong").text("Wrong Answers: " + wrongAnswers);
+        $(".unanswered").text("Unanswered Questions: " + unanswered);
+
+
+        // $(".reset-btn")
+        resetGame();
+
+    }
+
+
+
+
 
     function resetDisplay() {
         $(".answer-choice").empty();
         $("answer-page").empty();
         $("#image-holder").empty();
-        
+
         timeRemaining = 5;
         displayQuestion();
     }
-    console.log(questionCounter);
-   
-// This should restart game when button is clicked
-function resetGame() {
-    startGame();
+
+    // //  reset button event
+    //     clears score and clicks
+    //     clears timer
+    //     startGame
+    // //    
+    // This should restart game when button is clicked
+    function resetGame() {
+        $(".reset-btn").text("Play Again").css("margin-top", "+" + 100 + "px").show().on("click", function (event) {
+            $(".final-score").empty();
+            $(".game-over").empty();
+            $(".words").empty();
+            restartGame();
+        });
+
+
 
     }
 
