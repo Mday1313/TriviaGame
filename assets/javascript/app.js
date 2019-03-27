@@ -1,5 +1,4 @@
 
-// function to wrap all functions
 $(document).ready(function () {
 
     // create variables or objects
@@ -8,80 +7,73 @@ $(document).ready(function () {
 
     var triviaQuestions = [
         {
-            question: "question 1",            //     question
-            choices: ["a. words words", "b", "c", "d"],           //     possible answer array
-            correct: "answer",                 //     correct answer
-            gif: "stuff"                       //     corresponding answer gif
+            question: "Which mountain range divides Spain and France?",            //     question
+            choices: ["Andes", "Pyrenees", "Alps", "Sierra Nevada"],           //     possible answer array
+            correct: "Pyrenees",              //     correct answer
+            image: "../images/Pyrenees.png"                       //     corresponding answer gif
         },
         {
-            question: "question 2",
-            choices: "a blah blah, b, c, d",
-            correct: "answer",
-            gif: "stuff"
+            question: "You are sailing the warm waters of the Atlantic, off the coast of West Africa and see glowing dolphins, what is most likely the cause?",
+            choices: ["a radioactive spill", "someone spiked your drink with Peyote", "magic", "phosphorescent algae"],
+            correct: "phosphorescent algae",
+            image: "stuff"
         },
-        // {
-        //     question: "question 3",
-        //     choices: "a, b, c, d",
-        //     correct: "answer",
-        //     gif: "stuff"
-        // },
-        // {
-        //     question: "question 4",
-        //     choices: "a, b, c, d",
-        //     correct: "answer",
-        //     gif: "stuff"
-        // },
-        // {
-        //     question: "question 5",
-        //     choices: "a, b, c, d",
-        //     correct: "answer",
-        //     gif: "stuff"
-        // },
-        // {
-        //     question: "question 6",
-        //     choices: "a, b, c, d",
-        //     correct: "answer",
-        //     gif: "stuff"
-        // },
+        {
+            question: "Which Ecuadorian city is also a city in Spain?",
+            choices: ["Quito", "Cuenca", "Montanita", "Guayaquil"],
+            correct: "Cuenca",
+            image: "stuff"
+        },
+        {
+            question: "On which sea is Croatia located?",
+            choices: ["Aegean", "Adriatic", "Ionian", "Tyrrhanian"],
+            correct: "Adriatic",
+            image: "stuff"
+        },
+        {
+            question: "Where in Italy is the Via dell'Amore located?",
+            choices: ["Cinque Terre", "Amalfi Coast", "Venice", "Verona"],
+            correct: "Cinque Terre",
+            image: "stuff"
+        },
+        {
+            question: "How do sailors commonly refer to the Bay of Biscay due to high volume of rough seas?",
+            choices: ["Rocks a Lot Bay", "Capsize Bay", "Bay of Dismay", "Bay of Lost Souls"],
+            correct: "Bay of Dismay",
+            image: "stuff"
+        },
+        {
+            question: "Which famous archaeological site sits atop a massive plateau and overlooks the Dead Sea?",
+            choices: ["Cliff Palace", "Mount Masada", "Machu Picchu", "Petra"],
+            correct: "Cuenca",
+            image: "stuff"
+        },
 
     ];
 
 
-    // check access to this object
-
-
-    // other variables
-    var correctCount = 0;
-    var wrongCount = 0;
-    var timeRemaining = 30;
-    var questionCounter = 0; 
-    var unansweredCount = 0;
-    var answeredCorrect = 0;
-    var answerList;
-    var listItem;
+    var timeRemaining = 5;
+    var questionCounter = 0;
     var countDownId;
-    var answerPicked;
- var userGuess = [];
-    // onload
-    //     *game title 
-    //     *start button
-    //         on click calls startGame function
+    var listItem = [];
+    var correctAnswers = 0; 
+    var wrongAnswers = 0;
+    var unanswered = 0;
+    var pickedAnswer;
+var answerList = [];
 
     $(".start-btn")
         .text("Start Game").css("margin-top", "+" + 200 + "px")
-        .click(function () { gameSetup(); });
+        .click(function () { gameSetup(displayQuestion()); });
 
-    // button click above will run gameSetup function
-    // gameSetup function
-    for (var i = 0; i < triviaQuestions.length; i++) {
-        return triviaQuestions[i];
-    }
     function run() {
         clearInterval(countDownId);
-        
+        $(".timer-count").html("<h3>" + "Will self destruct in " + timeRemaining + "</h3>");
+
         countDownId = setInterval(decrement, 1000);
 
     }
+
     function decrement() {
 
         timeRemaining--;
@@ -89,50 +81,123 @@ $(document).ready(function () {
         // $(".time-count").text( "Will self destruct in " + timeRemaining );
 
         if (timeRemaining === 0) {
-
             stop();
-
+            generateTimesUp()
+            
 
         }
     }
 
     function stop() {
-        
-     clearInterval(countDownId);
-     questionCounter++;
-     console.log(questionCounter);
-     
+        questionCounter++;
+        clearInterval(countDownId);
+
+        wait()
     }
 
 
     function gameSetup() {
 
         $(".start-btn").hide();
-        // timeRemaining = 30;
-        // $(".timer-count").text("Time Remaining: " + timeRemaining);
+        $(".answer-page").hide();
 
-        // For loop that cycles through questions
-        $(".question-text").text(triviaQuestions[i].question);
+    }
+    function displayQuestion() {
 
-        //want choices array to be displayed as an ordered list block
-        // for each to make dry or plug in i from for loop
+        $(".question-page").show();
+        $(".question-text").text(triviaQuestions[questionCounter].question);
+        listItem = triviaQuestions[questionCounter].choices;
 
-        // MAKE DRY
-        answerList = $(".answer-choice").append('<li>' + triviaQuestions[i].choices[0] + '</li>', '<li>' + triviaQuestions[i].choices[1] + '</li>', '<li>' + triviaQuestions[i].choices[2] + '</li>', '<li>' + triviaQuestions[i].choices[3] + '</li>');
-
-        // answerPicked =  $("li")for.on("click", function() {
-        //     console.log(answerPicked);
-        //  });
+       for (var i = 0; i < listItem.length; i++) {
+        answerList = $(".answer-choice").append("<button class='answer [i]'>" + listItem[i] + "</button>");
+       console.log([i]);
+    }
       
         run();
         
+        $("button").on("click", function(event){
+        
+       
+            var selectedAnswer = $(this).text();
+             
+             console.log(selectedAnswer);
+            if (selectedAnswer === triviaQuestions[questionCounter].correct)  {
+                
+                stop();
+                generateWin();
+            } else {
+                stop();
+                generateLoss();
 
+            }
+                 
+             
+         });
+    
     }
 
-    $("li").on("click", function () {
-        var click = triviaQuestions[i].choice.indexOf("li");
-    });
-    console.log(userGuess);
+      
+function generateWin() {
+    correctAnswers++;
+    $(".question-page").hide();
+    setTimeout(wait, 3000); 
+    console.log("correct " + correctAnswers);
+}
+
+function generateLoss() {
+    wrongAnswers++;
+    $(".question-page").hide();
+    
+    setTimeout(wait, 3000);
+    console.log("wrong " + wrongAnswers);
+    
+}
+
+function generateTimesUp() {
+    unanswered++;
+    $(".question-page").hide();
+    
+    setTimeout(wait, 3000);
+    console.log("Unanswered " + unanswered);
+}
+
+
+function wait() {
+    //ternary operator replacing if/else for generate more questions
+    
+   if (questionCounter < 7) {
+    resetDisplay();
+    
+   } else {
+    finalScreen()
+   }
+    
+    
+   
+};
+   function finalScreen() {
+    $(".answer-choice").empty();
+    $(".game-over").text("GAME OVER ");
+    $(".words").text("How did you do?");
+    $(".correct").text("Correct Answers: " + correctAnswers);
+    $(".wrong").text("Wrong Answers: " + wrongAnswers);
+    $(".unanswered").text("Unanswered Questions: " + unanswered);
+   }
+
+       
+
+    // }
+
+    function resetDisplay() {
+        $(".answer-choice").empty();
+        
+        timeRemaining = 5;
+        displayQuestion();
+    }
+    console.log(questionCounter);
+    // function answerDisplay() {
+
+    // }
 
 
 
@@ -141,64 +206,6 @@ $(document).ready(function () {
 
 
 
-
-    //     setinterval 30 secends per question
-    //     for loop to cycle through question answer objects, 
-    //     set on click to each list item in DOM
-    //     this will loop through however many questions there are in the object
-    //         for (var i = 0; i < questions.length; i++) {
-
-
-
-    // startGame function will start clock and store click response for answer
-    //         }
-    //     inside for loop 
-    //         var response = onclick questions[i]
-    //         check if response is to questions item answer (questions[i].answer)
-    //         stop timer
-
-    // anwser shown for 6 seconds 
-    // display win, loss or unanswered statement
-    // display image
-
-
-    // question function
-    //     if correct, 
-    //         clear dislay
-    //         write correct, 
-    //         show gif / play music
-    //         correctpoints++
-    //         move on to next question
-
-    //     if wrong
-    //         clear dislay
-    //         write wrong, 
-    //         show correct answer
-    //         show gif 
-    //         wrongpoints++
-    //         move on to next question
-
-    //      if run out of time
-    //         clear dislay
-    //         write out of time, 
-    //         show correct answer
-    //         show gif 
-    //         unanswered++
-    //         move on to next question
-
-    //     if no more questions
-    //         clear display
-    //         show score
-    //             correct
-    //             wrong
-    //             unanswered
-
-    //         show reset button
-
-    // reset button event
-    //     clears score and clicks
-    //     clears timer
-    //     startGame
 
 
 });

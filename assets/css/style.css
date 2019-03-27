@@ -3,20 +3,37 @@
     text-align: center;
     background: burlywood;
     margin-top: 100px;
+    
+}
+.main-content {
+    height: 400px;
 }
 
 .answer-choice {
-    margin-left: 30%;
+    
     padding-top: 30px;
     text-align: center;
 }
 
-li {
+button {
     font-weight: bold;
     font-size: 20px;
+  
+    margin: 20px;
+    text-align: center;
 
 }
 
+
 body {
-    background-image: url(../images/5355225-world-map-wallpaper.jpg);
+    background-image: url(../images/pexels-photo-1020315.jpeg);
+    background-color: 0.5;
+
+}
+
+.game-over {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
