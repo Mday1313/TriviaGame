@@ -3,12 +3,12 @@ $(document).ready(function () {
 
     // create variables or objects
 
-    // object questions
+    // object questions, answers and image for each
 
     var triviaQuestions = [
         {
-            question: "Which mountain range divides Spain and France?",            //     question
-            choices: ["Andes", "Pyrenees", "Alps", "Sierra Nevada"],           //     possible answer array
+            question: "Which mountain range divides Spain and France?",   //     question
+            choices: ["Andes", "Pyrenees", "Alps", "Sierra Nevada"],  //  possible answer array
             correct: "Pyrenees",              //     correct answer
             image: "/Pyrenees.png"                       //     corresponding answer gif
         },
@@ -66,9 +66,11 @@ $(document).ready(function () {
 
 
 
-
-    var timeRemaining = 20;
+// countdown clock
+    var timeRemaining = 20;  
+// var to keep track of which question we are on
     var questionCounter = 0;
+
     var countDownId;
     var listItem = [];
     var correctAnswers = 0;
@@ -76,12 +78,14 @@ $(document).ready(function () {
     var unanswered = 0;
     var startGame;
 
-
+// function connected to reset button click, to clear and reset numbers for next game
     function restartGame() {
         $(".reset-btn").hide();
         questionCounter = 0;
         countDownId;
         listItem = [];
+
+    // clears score
         correctAnswers = 0;
         wrongAnswers = 0;
         unanswered = 0;
@@ -91,36 +95,42 @@ $(document).ready(function () {
         $(".start-btn").show();
     }
 
+    // first function run, to establish button to start game
+    // create button
+    // add click function
     function startGame() {
         $(".reset-btn").hide();
         $(".start-btn")
             .text("Start Game").css("margin-top", "+" + 200 + "px")
             .click(function () { gameSetup(displayQuestion()); });
     }
+    // call first function
     startGame();
 
+
+// function to set time interval to 20 seconds
     function run() {
         clearInterval(countDownId);
         $(".timer-count").html("<h3>" + "Time is running out in: " + timeRemaining + "</h3>");
-
+// count down by 1 second (1000 miliseconds)
         countDownId = setInterval(decrement, 1000);
 
     }
+// function to reduce time by 1 for every 1000 miliseconds
+// write time to page
 
     function decrement() {
 
         timeRemaining--;
         $(".timer-count").html("<h3>" + "Time is running out in: " + timeRemaining + "</h3>");
-        // $(".time-count").text( "Will self destruct in " + timeRemaining );
-
+        
+// set conditional to stop when timer equals 0
         if (timeRemaining === 0) {
             stop();
             generateTimesUp()
-
-
         }
     }
-
+// function to increase question number and clear interval
     function stop() {
         questionCounter++;
         clearInterval(countDownId);
@@ -128,13 +138,14 @@ $(document).ready(function () {
         wait()
     }
 
-
+// hide start button when clicked
     function gameSetup() {
 
         $(".start-btn").hide();
         $(".answer-page").hide();
-
+        
     }
+    // 
     function displayQuestion() {
         $(".win").empty();
         $(".loss").empty();
