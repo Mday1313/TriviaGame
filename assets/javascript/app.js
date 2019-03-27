@@ -60,12 +60,7 @@ $(document).ready(function () {
             correct: "Acadia",
             image: "/bubs.jpg"
         },
-        {
-            question: "",
-            choices: [],
-            correct: "",
-            image: ""
-        },
+        
 
     ];
 
@@ -201,20 +196,23 @@ function generateTimesUp() {
 function wait() {
     
     
-   if (questionCounter < 10) {
+   if (questionCounter < 9) {
     
     resetDisplay();
     
    }  else {
-      
-    finalScreen()
+    setTimeout(finalScreen, 3000);
    }
     
     
    
 };
    function finalScreen() {
-    
+
+    $(".loss").empty();
+    $(".win").empty();
+    $(".time-up").empty();
+    $("#image-holder").empty();
     $(".answer-choice").empty();
     $(".game-over").text("GAME OVER ");
     $(".words").text("How did you do?");
@@ -225,9 +223,7 @@ function wait() {
    
     // $(".reset-btn")
     
-    $(".reset-btn").text("Play Again").css("margin-top", "+" + 100 + "px").show().on("click", function (event) { 
-        resetGame(event); 
-    });
+    $(".reset-btn").text("Play Again").css("margin-top", "+" + 100 + "px").show().on("click", resetGame);
    }
 
        
